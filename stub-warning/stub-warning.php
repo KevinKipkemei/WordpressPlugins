@@ -25,7 +25,6 @@ function sw_stub_warning($content)
     $clean_content = strip_tags($content);
     $word_count = str_word_count($clean_content);
 
-    // Getting the dynamic threshold from the database (default to 100)
     $threshold = get_option('sw_word_count_threshold', 100);
 
     $stub_warning_html = '<div style="background: #ffe6e6; border: 1px solid red; padding: 10px; margin-bottom: 20px; color: red;">'
@@ -47,11 +46,11 @@ add_filter('the_content', 'sw_stub_warning');
 function sw_settings_menu()
 {
     add_options_page(
-        'Stub Warning Settings',      // Browser tab title
-        'Stub Warning',               // Text shown in the sidebar menu
-        'manage_options',             // User capability required (admin only)
-        'stub-warning-settings',      // URL slug (admin.php?page=stub-warning-settings)
-        'sw_render_settings_page'     // The function that draws the page
+        'Stub Warning Settings',
+        'Stub Warning',
+        'manage_options',
+        'stub-warning-settings',
+        'sw_render_settings_page'
     );
 }
 add_action('admin_menu', 'sw_settings_menu');
@@ -62,16 +61,13 @@ function sw_render_settings_page()
     ?>
     <div class="wrap">
         <h1>Stub Warning Settings</h1>
-        <!-- WordPress handles the form submission to options.php automatically -->
         <form method="post" action="options.php">
             <?php
-            // This outputs hidden security fields (nonces) so WP knows the request is legit
+            // Outputting hidden security fields
             settings_fields('sw_settings_group');
 
-            // This tells WP to "go find every section and field I registered for this page"
             do_settings_sections('stub-warning-settings');
 
-            // Standard WP styled submit button
             submit_button();
             ?>
         </form>
@@ -83,10 +79,10 @@ function sw_render_settings_page()
 function sw_register_settings()
 {
 
-    // Register the setting: This tells WP to allow saving 'sw_word_count_threshold' in wp_options table.
+    // Register the settings in wp_options table.
     register_setting('sw_settings_group', 'sw_word_count_threshold', [
         'type' => 'integer',
-        'sanitize_callback' => 'absint', // Security: Force the input to be an Absolute Integer
+        'sanitize_callback' => 'absint',
         'default' => 100,
     ]);
 
@@ -98,10 +94,10 @@ function sw_register_settings()
 
     // Add a Section: A group of fields with a title and an optional description.
     add_settings_section(
-        'sw_main_section',          
-        'Main Configuration',        
-        'sw_section_callback',       
-        'stub-warning-settings'      
+        'sw_main_section',
+        'Main Configuration',
+        'sw_section_callback',
+        'stub-warning-settings'
     );
 
     add_settings_section(
@@ -113,11 +109,11 @@ function sw_register_settings()
 
     // Add the Field: One specific setting row (Label + Input)
     add_settings_field(
-        'sw_word_count_threshold',    
-        'Word Count Threshold',       
-        'sw_field_render_callback',  
-        'stub-warning-settings',      
-        'sw_main_section'             
+        'sw_word_count_threshold',
+        'Word Count Threshold',
+        'sw_field_render_callback',
+        'stub-warning-settings',
+        'sw_main_section'
     );
 
     add_settings_field(
