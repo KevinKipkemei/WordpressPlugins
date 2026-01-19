@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Copyright Note
  * Description: A simple plugin that appends a copyright note on a post
- * Version : 1.0.0
- * Author : Kevin Kipkemei
+ * Version: 1.0.0
+ * Author: Kevin Kipkemei
  */
 
 if (!defined('ABSPATH')) {
