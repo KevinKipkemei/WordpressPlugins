@@ -17,7 +17,19 @@ if (!defined('ABSPATH')) {
  * @return string
  */
 
-function brt_reading_time($content)
+/**
+ * 1. Load Text Domain
+ */
+function kk_brt_load_textdomain() {
+    load_plugin_textdomain('kk-basic-reading-time', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('init', 'kk_brt_load_textdomain');
+
+/**
+ * @param string $content
+ * @return string
+ */
+function kk_brt_reading_time($content)
 {
     $wpm = 200;
 
@@ -28,12 +40,23 @@ function brt_reading_time($content)
     $clean_content = strip_tags($content);
     $word_count = str_word_count($clean_content);
     $reading_time = ceil($word_count / $wpm);
-    $label = _n('minute', 'minutes', $reading_time, 'basic_reading_time');
-    $reading_time_message = sprintf('<div>'
-        . '<p>Estimated reading time : %s %s </p>'
-        . '</div>', $reading_time, $label);
+    
+    // Use the correct text domain for translation
+    // _n() handles singular/plural logic for languages with complex plural rules
+    $label = sprintf(
+        _n('%s minute', '%s minutes', $reading_time, 'kk-basic-reading-time'),
+        $reading_time
+    );
 
-    return $reading_time_message . $content;
+    // Make the whole message translatable
+    $message = sprintf(
+        esc_html__('Estimated reading time: %s', 'kk-basic-reading-time'), 
+        $label
+    );
+
+    $reading_time_html = sprintf('<div class="kk-brt-time"><p>%s</p></div>', $message);
+
+    return $reading_time_html . $content;
 }
 
-add_filter('the_content', 'brt_reading_time');
+add_filter('the_content', 'kk_brt_reading_time');

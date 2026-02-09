@@ -1,0 +1,17 @@
+/* callout.css - Frontend */
+.khc-callout-box {
+    background-color: #e0f7fa;
+    border-left: 5px solid #006064;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.khc-callout-title {
+    margin-top: 0;
+    color: #006064;
+}
+
+.khc-callout-content {
+    color: #333;
+}

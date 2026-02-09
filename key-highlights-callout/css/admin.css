@@ -1,0 +1,9 @@
+/* admin.css - Backend */
+.kk-khc-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.kk-khc-textarea {
+    width: 100%;
+}
