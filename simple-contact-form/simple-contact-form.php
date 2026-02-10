@@ -22,7 +22,7 @@ function kk_scf_load_textdomain() {
 add_action('init', 'kk_scf_load_textdomain');
 
 function kk_scf_install_table() {
-    global $wpdb;
+    global $wpdb, $kk_scf_db_version;
 
     $table_name = $wpdb->prefix . 'kk_scf_messages';
     $charset_collate = $wpdb->get_charset_collate();

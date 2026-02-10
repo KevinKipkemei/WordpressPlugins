@@ -22,7 +22,7 @@ function kk_slt_load_textdomain() {
 add_action('init', 'kk_slt_load_textdomain');
 
 function kk_slt_install_table() {
-    global $wpdb;
+    global $wpdb, $kk_slt_db_version;
 
     $table_name = $wpdb->prefix . 'kk_slt_links';
     $charset_collate = $wpdb->get_charset_collate();

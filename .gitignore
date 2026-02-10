@@ -3,3 +3,5 @@
 
 # Insight files (local development only)
 **/insight.md
+simple-contact-form/plugin-boilerplate.php
+site-seeder/site-seeder.php
