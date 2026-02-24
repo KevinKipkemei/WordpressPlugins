@@ -1,0 +1,118 @@
+/* Event Registration System - Frontend Form Styles */
+
+.kk-ers-form-wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    font-family: inherit;
+}
+
+/* Notices */
+.kk-ers-notice {
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 22px;
+    border-left: 5px solid transparent;
+}
+
+.kk-ers-notice strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1em;
+}
+
+.kk-ers-success {
+    background-color: #edfaef;
+    border-color: #00a32a;
+    color: #1a3d20;
+}
+
+.kk-ers-error {
+    background-color: #fdf1f1;
+    border-color: #d63638;
+    color: #5c1a1a;
+}
+
+.kk-ers-error ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
+}
+
+.kk-ers-error ul li {
+    margin-bottom: 3px;
+}
+
+/* Form */
+.kk-ers-form {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.kk-ers-field {
+    margin-bottom: 20px;
+}
+
+.kk-ers-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+    font-size: 0.95em;
+}
+
+.kk-ers-required {
+    color: #d63638;
+    margin-left: 3px;
+}
+
+.kk-ers-field input[type="text"],
+.kk-ers-field input[type="email"],
+.kk-ers-field select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.kk-ers-field input:focus,
+.kk-ers-field select:focus {
+    outline: none;
+    border-color: #2271b1;
+    background-color: #fff;
+    box-shadow: 0 0 0 2px rgba(34, 113, 177, 0.15);
+}
+
+/* Submit button */
+.kk-ers-submit-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.05em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    letter-spacing: 0.3px;
+}
+
+.kk-ers-submit-btn:hover {
+    background-color: #135e96;
+}
+
+/* No events message */
+.kk-ers-no-events {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}

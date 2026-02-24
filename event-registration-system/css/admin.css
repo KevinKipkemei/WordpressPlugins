@@ -1,0 +1,66 @@
+/* Event Registration System - Admin Styles */
+
+/* Badge for full events */
+.kk-ers-badge-full {
+    display: inline-block;
+    background-color: #d63638;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Events table tweaks */
+.wp-list-table .column-registrations {
+    width: 140px;
+}
+
+.wp-list-table .column-actions {
+    width: 120px;
+}
+
+/* Form table spacing */
+.form-table td input[type="datetime-local"] {
+    height: 30px;
+    padding: 0 8px;
+    font-size: 14px;
+}
+
+/* --- Phase 3 Styles --- */
+
+/* Event filter dropdown row */
+.kk-ers-filter-form {
+    margin: 12px 0 16px;
+}
+
+.kk-ers-filter-form select {
+    min-width: 220px;
+    height: 32px;
+    font-size: 14px;
+}
+
+/* Export CSV button */
+.kk-ers-export-btn {
+    background-color: #00a32a !important;
+    color: #fff !important;
+    border-color: #00a32a !important;
+    font-weight: 600;
+}
+
+.kk-ers-export-btn:hover {
+    background-color: #008a20 !important;
+    border-color: #008a20 !important;
+    color: #fff !important;
+}
+
+/* Total count row */
+.kk-ers-total {
+    color: #666;
+    font-style: italic;
+    margin-top: 8px;
+}
