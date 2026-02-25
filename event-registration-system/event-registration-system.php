@@ -785,6 +785,9 @@ function kk_ers_registration_shortcode() {
 
                         if ($inserted) {
                             $success = true;
+                            // Send emails
+                            kk_ers_send_attendee_email($form['name'], $form['email'], $event);
+                            kk_ers_send_admin_email($form['name'], $form['email'], $event);
                             $form    = ['event_id' => 0, 'name' => '', 'email' => '']; // clear form
                         } else {
                             $errors[] = __('There was a problem saving your registration. Please try again.', 'kk-event-registration');
@@ -898,3 +901,192 @@ function kk_ers_registration_shortcode() {
     return ob_get_clean(); // Return the buffered output
 }
 add_shortcode('event_registration', 'kk_ers_registration_shortcode');
+
+/**
+ * 5. Email Notifications
+ */
+
+/**
+ * Send confirmation email to the attendee
+ */
+function kk_ers_send_attendee_email($name, $email, $event) {
+    $site_name  = get_bloginfo('name');
+    $event_date = date_i18n(
+        get_option('date_format') . ' ' . get_option('time_format'),
+        strtotime($event->event_date)
+    );
+
+    $subject = sprintf(
+        /* translators: %s = event name */
+        __('[%s] Registration Confirmed: %s', 'kk-event-registration'),
+        $site_name,
+        $event->name
+    );
+
+    $message = kk_ers_attendee_email_template($name, $event->name, $event_date, $event->location, $site_name);
+
+    $headers = [
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . $site_name . ' <' . get_bloginfo('admin_email') . '>',
+    ];
+
+    wp_mail($email, $subject, $message, $headers);
+}
+
+/**
+ * Send notification email to the site admin
+ */
+function kk_ers_send_admin_email($attendee_name, $attendee_email, $event) {
+    $site_name  = get_bloginfo('name');
+    $admin_email = get_bloginfo('admin_email');
+    $event_date = date_i18n(
+        get_option('date_format') . ' ' . get_option('time_format'),
+        strtotime($event->event_date)
+    );
+
+    $subject = sprintf(
+        /* translators: %s = event name */
+        __('[%s] New Registration: %s', 'kk-event-registration'),
+        $site_name,
+        $event->name
+    );
+
+    $registrations_url = admin_url('admin.php?page=kk-ers-registrations&kk_ers_event_id=' . $event->id);
+
+    $message = kk_ers_admin_email_template($attendee_name, $attendee_email, $event->name, $event_date, $event->location, $registrations_url, $site_name);
+
+    $headers = [
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . $site_name . ' <' . $admin_email . '>',
+    ];
+
+    wp_mail($admin_email, $subject, $message, $headers);
+}
+
+/**
+ * HTML email template: Attendee confirmation
+ */
+function kk_ers_attendee_email_template($name, $event_name, $event_date, $location, $site_name) {
+    ob_start();
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8"></head>
+    <body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:30px 0;">
+            <tr><td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;max-width:600px;width:100%;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background:#2271b1;padding:30px 40px;">
+                            <h1 style="margin:0;color:#ffffff;font-size:22px;"><?php echo esc_html($site_name); ?></h1>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding:35px 40px;color:#333333;">
+                            <h2 style="margin:0 0 16px;color:#2271b1;font-size:20px;">✅ You're Registered!</h2>
+                            <p style="margin:0 0 12px;font-size:15px;">Hi <?php echo esc_html($name); ?>,</p>
+                            <p style="margin:0 0 24px;font-size:15px;line-height:1.6;">Your registration has been confirmed. Here are your event details:</p>
+
+                            <table width="100%" cellpadding="12" cellspacing="0" style="background:#f8f9fa;border-radius:6px;margin-bottom:24px;">
+                                <tr>
+                                    <td style="font-weight:bold;width:110px;color:#555;">Event</td>
+                                    <td><?php echo esc_html($event_name); ?></td>
+                                </tr>
+                                <tr style="border-top:1px solid #e5e5e5;">
+                                    <td style="font-weight:bold;color:#555;">Date</td>
+                                    <td><?php echo esc_html($event_date); ?></td>
+                                </tr>
+                                <tr style="border-top:1px solid #e5e5e5;">
+                                    <td style="font-weight:bold;color:#555;">Location</td>
+                                    <td><?php echo esc_html($location); ?></td>
+                                </tr>
+                            </table>
+
+                            <p style="margin:0;font-size:14px;color:#666;">We look forward to seeing you there!</p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background:#f8f9fa;padding:20px 40px;text-align:center;border-top:1px solid #eeeeee;">
+                            <p style="margin:0;font-size:12px;color:#999;">&copy; <?php echo esc_html(date_i18n('Y')); ?> <?php echo esc_html($site_name); ?>. All rights reserved.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td></tr>
+        </table>
+    </body>
+    </html>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * HTML email template: Admin notification
+ */
+function kk_ers_admin_email_template($attendee_name, $attendee_email, $event_name, $event_date, $location, $registrations_url, $site_name) {
+    ob_start();
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8"></head>
+    <body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:30px 0;">
+            <tr><td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;max-width:600px;width:100%;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background:#2271b1;padding:30px 40px;">
+                            <h1 style="margin:0;color:#ffffff;font-size:22px;"><?php echo esc_html($site_name); ?></h1>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding:35px 40px;color:#333333;">
+                            <h2 style="margin:0 0 16px;color:#2271b1;font-size:20px;">🆕 New Registration</h2>
+                            <p style="margin:0 0 24px;font-size:15px;">A new attendee has registered for an event on your site.</p>
+
+                            <table width="100%" cellpadding="12" cellspacing="0" style="background:#f8f9fa;border-radius:6px;margin-bottom:24px;">
+                                <tr>
+                                    <td style="font-weight:bold;width:130px;color:#555;">Attendee</td>
+                                    <td><?php echo esc_html($attendee_name); ?></td>
+                                </tr>
+                                <tr style="border-top:1px solid #e5e5e5;">
+                                    <td style="font-weight:bold;color:#555;">Email</td>
+                                    <td><?php echo esc_html($attendee_email); ?></td>
+                                </tr>
+                                <tr style="border-top:1px solid #e5e5e5;">
+                                    <td style="font-weight:bold;color:#555;">Event</td>
+                                    <td><?php echo esc_html($event_name); ?></td>
+                                </tr>
+                                <tr style="border-top:1px solid #e5e5e5;">
+                                    <td style="font-weight:bold;color:#555;">Date</td>
+                                    <td><?php echo esc_html($event_date); ?></td>
+                                </tr>
+                                <tr style="border-top:1px solid #e5e5e5;">
+                                    <td style="font-weight:bold;color:#555;">Location</td>
+                                    <td><?php echo esc_html($location); ?></td>
+                                </tr>
+                            </table>
+
+                            <a href="<?php echo esc_url($registrations_url); ?>"
+                               style="display:inline-block;background:#2271b1;color:#fff;padding:12px 24px;border-radius:5px;text-decoration:none;font-weight:bold;font-size:14px;">
+                                View All Registrations &rarr;
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background:#f8f9fa;padding:20px 40px;text-align:center;border-top:1px solid #eeeeee;">
+                            <p style="margin:0;font-size:12px;color:#999;">This is an automated notification from <?php echo esc_html($site_name); ?>.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td></tr>
+        </table>
+    </body>
+    </html>
+    <?php
+    return ob_get_clean();
+}
