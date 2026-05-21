@@ -1,0 +1,25 @@
+/* Admin Styles for Simple Poll Plugin */
+
+#kk-sp-options-container {
+    margin-bottom: 20px;
+}
+
+.kk-sp-option-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.kk-sp-option-row input.regular-text {
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.kk-sp-remove-option {
+    color: #d63638;
+}
+
+.kk-sp-remove-option:hover {
+    color: #d63638;
+    border-color: #d63638;
+}
