@@ -1,0 +1,45 @@
+<<<<<<< HEAD
+# Node
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+=======
+# Quiz files (local development only)
+**/quiz.md
+
+# Insight files (local development only)
+**/insight.md
+
+# Lessons (local development notes only)
+**/lessons.md
+
+simple-contact-form/plugin-boilerplate.php
+site-seeder/site-seeder.php
+>>>>>>> defbd09a8126c8f70b665ba348df9ca790115372

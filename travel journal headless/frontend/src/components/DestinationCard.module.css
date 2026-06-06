@@ -1,0 +1,166 @@
+/* ============================================
+   DestinationCard — Glassmorphism Card
+   ============================================ */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition:
+    transform var(--transition-base) cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* ---- Image Area ---- */
+.imageLink {
+  display: block;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 60%;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .image {
+  transform: scale(1.06);
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-forest) 0%,
+    var(--color-teal) 50%,
+    var(--color-forest-light) 100%
+  );
+}
+
+.placeholderIcon {
+  font-size: 3rem;
+  opacity: 0.5;
+  filter: grayscale(20%);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+  pointer-events: none;
+}
+
+/* ---- Country Badge ---- */
+.countryBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: rgba(26, 92, 56, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-full);
+  z-index: 2;
+  text-transform: uppercase;
+}
+
+/* ---- Content Area ---- */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  flex: 1;
+}
+
+.seasonTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  color: var(--foreground-muted);
+  background: var(--background-secondary);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--foreground);
+}
+
+.title a {
+  transition: color var(--transition-fast);
+}
+
+.title a:hover {
+  color: var(--color-forest-light);
+}
+
+.excerpt {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--foreground-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---- Explore Link ---- */
+.exploreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-forest);
+  transition: gap var(--transition-fast), color var(--transition-fast);
+}
+
+.exploreLink:hover {
+  gap: 12px;
+  color: var(--color-forest-light);
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+
+.exploreLink:hover .arrow {
+  transform: translateX(2px);
+}
