@@ -1,0 +1,143 @@
+/* ============================================
+   Footer — Three-Column with Glassmorphism
+   ============================================ */
+
+.footer {
+  position: relative;
+  margin-top: auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-top: 1px solid var(--glass-border);
+}
+
+/* ---- Gradient Top Border ---- */
+.gradientBorder {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-forest) 20%,
+    var(--color-teal) 50%,
+    var(--color-sand) 80%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 24px 32px;
+}
+
+/* ---- Grid Layout ---- */
+.grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 48px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.columnTitle {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titleIcon {
+  font-size: 1.3rem;
+}
+
+.aboutText {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--foreground-muted);
+  max-width: 320px;
+}
+
+/* ---- Link List ---- */
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--foreground-muted);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.footerLink:hover {
+  color: var(--color-forest-light);
+  transform: translateX(4px);
+}
+
+.linkArrow {
+  color: var(--color-forest);
+  font-size: 0.8rem;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.footerLink:hover .linkArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---- Bottom Bar ---- */
+.bottomBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.copyright {
+  font-size: 0.82rem;
+  color: var(--foreground-subtle);
+}
+
+.madeWith {
+  font-size: 0.82rem;
+  color: var(--foreground-subtle);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .aboutText {
+    max-width: 100%;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
